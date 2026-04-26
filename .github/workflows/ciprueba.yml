@@ -4,21 +4,23 @@ on:
   push:
     branches: [ rama1 ]
 
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 jobs:
   verificar:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout 
+      - name: Checkout code
         uses: actions/checkout@v4
 
       - name: Validar archivos básicos
         run: |
           test -f index.html
+          test -d css
           test -f css/styles.css
           echo "Archivos básicos verificados correctamente"
 
       - name: Simular despliegue
         run: echo "Artefactos listos para el despliegue en el entorno de Staging"
-               
- 
