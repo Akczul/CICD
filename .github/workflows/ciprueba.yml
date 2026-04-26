@@ -1,0 +1,24 @@
+name: CI-verificar-codigo
+
+on:
+  push:
+    branches: [ rama1 ]
+
+jobs:
+  verificar:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout 
+        uses: actions/checkout@v4
+
+      - name: Validar archivos básicos
+        run: |
+          test -f index.html
+          test -f css/styles.css
+          echo "Archivos básicos verificados correctamente"
+
+      - name: Simular despliegue
+        run: echo "Artefactos listos para el despliegue en el entorno de Staging"
+               
+ 
