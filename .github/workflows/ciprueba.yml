@@ -18,6 +18,7 @@ jobs:
       - name: Mostrar URL esperada
         run: |
           echo "URL esperada: https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/"
+          echo "::notice title=URL esperada::https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/"
 
       - name: Validar archivos básicos
         run: |
@@ -66,6 +67,8 @@ jobs:
         run: |
           if [ -n "${{ steps.deployment.outputs.page_url }}" ]; then
             echo "URL desplegada: ${{ steps.deployment.outputs.page_url }}"
+            echo "::notice title=URL desplegada::${{ steps.deployment.outputs.page_url }}"
           else
             echo "URL esperada: https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/"
+            echo "::notice title=URL esperada::https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/"
           fi
