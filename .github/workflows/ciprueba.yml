@@ -15,6 +15,9 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Mostrar URL esperada
+        run: echo "URL esperada: https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/"
+
       - name: Validar archivos básicos
         run: |
           test -f index.html
@@ -58,6 +61,7 @@ jobs:
         uses: actions/deploy-pages@v4
 
       - name: Mostrar URL de la pagina
+        if: always()
         run: |
           if [ -n "${{ steps.deployment.outputs.page_url }}" ]; then
             echo "URL desplegada: ${{ steps.deployment.outputs.page_url }}"
