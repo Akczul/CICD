@@ -10,15 +10,18 @@ env:
 jobs:
   verificar:
     runs-on: ubuntu-latest
+    outputs:
+      url_esperada: ${{ steps.url_verificacion.outputs.url_esperada }}
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Mostrar URL esperada
+      - name: Generar URL esperada para verificacion
+        id: url_verificacion
         run: |
           echo "URL esperada: https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/"
-          echo "::notice title=URL esperada::https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/"
+          echo "url_esperada=https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/" >> "$GITHUB_OUTPUT"
 
       - name: Validar archivos básicos
         run: |
@@ -65,10 +68,9 @@ jobs:
       - name: Mostrar URL de la pagina
         if: always()
         run: |
+          echo "URL conectada desde verificacion: ${{ needs.verificar.outputs.url_esperada }}"
           if [ -n "${{ steps.deployment.outputs.page_url }}" ]; then
             echo "URL desplegada: ${{ steps.deployment.outputs.page_url }}"
-            echo "::notice title=URL desplegada::${{ steps.deployment.outputs.page_url }}"
           else
-            echo "URL esperada: https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/"
-            echo "::notice title=URL esperada::https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/"
+            echo "URL esperada (desde verificacion): ${{ needs.verificar.outputs.url_esperada }}"
           fi
